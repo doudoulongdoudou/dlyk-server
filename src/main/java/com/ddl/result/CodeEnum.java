@@ -14,7 +14,7 @@ import lombok.*;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
-@RequiredArgsConstructor
+//@RequiredArgsConstructor
 public enum CodeEnum {
 
     OK(200, "成功"),

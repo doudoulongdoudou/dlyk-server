@@ -35,4 +35,5 @@ spring:
 
 # ??mybatis??
 mybatis:
-  mapper-locations: classspath:mapper/*.xml
+  type-aliases-package: com.ddl.entity
+  mapper-locations: classpath:mapper/*.xml

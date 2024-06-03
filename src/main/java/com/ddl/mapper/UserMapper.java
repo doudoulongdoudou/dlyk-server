@@ -10,6 +10,7 @@ import com.ddl.entity.User;
 */
 public interface UserMapper {
 
+    User selectByLoginAct(String username);
 }
 
 

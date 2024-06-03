@@ -29,4 +29,12 @@
         account_enabled,create_time,create_by,
         edit_time,edit_by,last_login_time
     </sql>
+    
+    <select id="selectByLoginAct" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+            from t_user
+        where login_act = #{username}
+    </select>
+
 </mapper>
