@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ddl.mapper.TranMapper">
+
+    <resultMap id="BaseResultMap" type="com.ddl.entity.Tran">
+            <id property="id" column="id" jdbcType="INTEGER"/>
+            <result property="tranNo" column="tran_no" jdbcType="VARCHAR"/>
+            <result property="customerId" column="customer_id" jdbcType="INTEGER"/>
+            <result property="money" column="money" jdbcType="DECIMAL"/>
+            <result property="expectedDate" column="expected_date" jdbcType="TIMESTAMP"/>
+            <result property="stage" column="stage" jdbcType="INTEGER"/>
+            <result property="description" column="description" jdbcType="VARCHAR"/>
+            <result property="nextContactTime" column="next_contact_time" jdbcType="TIMESTAMP"/>
+            <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
+            <result property="createBy" column="create_by" jdbcType="INTEGER"/>
+            <result property="editTime" column="edit_time" jdbcType="TIMESTAMP"/>
+            <result property="editBy" column="edit_by" jdbcType="INTEGER"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,tran_no,customer_id,
+        money,expected_date,stage,
+        description,next_contact_time,create_time,
+        create_by,edit_time,edit_by
+    </sql>
+</mapper>

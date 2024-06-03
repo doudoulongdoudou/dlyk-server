@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ddl.mapper.UserMapper">
+
+    <resultMap id="BaseResultMap" type="com.ddl.entity.User">
+            <id property="id" column="id" jdbcType="INTEGER"/>
+            <result property="loginAct" column="login_act" jdbcType="VARCHAR"/>
+            <result property="loginPwd" column="login_pwd" jdbcType="VARCHAR"/>
+            <result property="name" column="name" jdbcType="VARCHAR"/>
+            <result property="phone" column="phone" jdbcType="VARCHAR"/>
+            <result property="email" column="email" jdbcType="VARCHAR"/>
+            <result property="accountNoExpired" column="account_no_expired" jdbcType="INTEGER"/>
+            <result property="credentialsNoExpired" column="credentials_no_expired" jdbcType="INTEGER"/>
+            <result property="accountNoLocked" column="account_no_locked" jdbcType="INTEGER"/>
+            <result property="accountEnabled" column="account_enabled" jdbcType="INTEGER"/>
+            <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
+            <result property="createBy" column="create_by" jdbcType="INTEGER"/>
+            <result property="editTime" column="edit_time" jdbcType="TIMESTAMP"/>
+            <result property="editBy" column="edit_by" jdbcType="INTEGER"/>
+            <result property="lastLoginTime" column="last_login_time" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,login_act,login_pwd,
+        name,phone,email,
+        account_no_expired,credentials_no_expired,account_no_locked,
+        account_enabled,create_time,create_by,
+        edit_time,edit_by,last_login_time
+    </sql>
+</mapper>

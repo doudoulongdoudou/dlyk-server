@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ddl.mapper.ActivityRemarkMapper">
+
+    <resultMap id="BaseResultMap" type="com.ddl.entity.ActivityRemark">
+            <id property="id" column="id" jdbcType="INTEGER"/>
+            <result property="activityId" column="activity_id" jdbcType="INTEGER"/>
+            <result property="noteContent" column="note_content" jdbcType="VARCHAR"/>
+            <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
+            <result property="createBy" column="create_by" jdbcType="INTEGER"/>
+            <result property="editTime" column="edit_time" jdbcType="TIMESTAMP"/>
+            <result property="editBy" column="edit_by" jdbcType="INTEGER"/>
+            <result property="deleted" column="deleted" jdbcType="INTEGER"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,activity_id,note_content,
+        create_time,create_by,edit_time,
+        edit_by,deleted
+    </sql>
+</mapper>

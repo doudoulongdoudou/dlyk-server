@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ddl.mapper.ClueMapper">
+
+    <resultMap id="BaseResultMap" type="com.ddl.entity.Clue">
+            <id property="id" column="id" jdbcType="INTEGER"/>
+            <result property="ownerId" column="owner_id" jdbcType="INTEGER"/>
+            <result property="activityId" column="activity_id" jdbcType="INTEGER"/>
+            <result property="fullName" column="full_name" jdbcType="VARCHAR"/>
+            <result property="appellation" column="appellation" jdbcType="INTEGER"/>
+            <result property="phone" column="phone" jdbcType="VARCHAR"/>
+            <result property="weixin" column="weixin" jdbcType="VARCHAR"/>
+            <result property="qq" column="qq" jdbcType="VARCHAR"/>
+            <result property="email" column="email" jdbcType="VARCHAR"/>
+            <result property="age" column="age" jdbcType="INTEGER"/>
+            <result property="job" column="job" jdbcType="VARCHAR"/>
+            <result property="yearIncome" column="year_income" jdbcType="DECIMAL"/>
+            <result property="address" column="address" jdbcType="VARCHAR"/>
+            <result property="needLoan" column="need_loan" jdbcType="INTEGER"/>
+            <result property="intentionState" column="intention_state" jdbcType="INTEGER"/>
+            <result property="intentionProduct" column="intention_product" jdbcType="INTEGER"/>
+            <result property="state" column="state" jdbcType="INTEGER"/>
+            <result property="source" column="source" jdbcType="INTEGER"/>
+            <result property="description" column="description" jdbcType="VARCHAR"/>
+            <result property="nextContactTime" column="next_contact_time" jdbcType="TIMESTAMP"/>
+            <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
+            <result property="createBy" column="create_by" jdbcType="INTEGER"/>
+            <result property="editTime" column="edit_time" jdbcType="TIMESTAMP"/>
+            <result property="editBy" column="edit_by" jdbcType="INTEGER"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,owner_id,activity_id,
+        full_name,appellation,phone,
+        weixin,qq,email,
+        age,job,year_income,
+        address,need_loan,intention_state,
+        intention_product,state,source,
+        description,next_contact_time,create_time,
+        create_by,edit_time,edit_by
+    </sql>
+</mapper>
