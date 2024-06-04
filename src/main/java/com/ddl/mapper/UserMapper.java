@@ -10,6 +10,11 @@ import com.ddl.entity.User;
 */
 public interface UserMapper {
 
+    /**
+     * 查询用户名
+     * @param username
+     * @return
+     */
     User selectByLoginAct(String username);
 }
 
