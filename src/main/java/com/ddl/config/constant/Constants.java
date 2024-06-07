@@ -22,4 +22,7 @@ public class Constants {
 
     //jwt过期时间30分钟
     public static final Long DEFAULT_EXPIRE_TIME = 30 * 60L;
+
+    //分页每页显示10条数据
+    public static final int PAGE_SIZE = 10;
 }

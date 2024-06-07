@@ -1,6 +1,10 @@
 package com.ddl.service;
 
+import com.ddl.entity.User;
+import com.github.pagehelper.PageInfo;
 import org.springframework.security.core.userdetails.UserDetailsService;
+
+import java.util.List;
 
 /**
  * ClassName: UserService
@@ -13,4 +17,10 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 
 public interface UserService extends UserDetailsService {
 
+    /**
+     * 【分页查询】 查询所有用户信息
+     * @param current
+     * @return
+     */
+    PageInfo<User> getUserByPage(Integer current);
 }

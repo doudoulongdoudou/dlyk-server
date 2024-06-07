@@ -2,6 +2,8 @@ package com.ddl.mapper;
 
 import com.ddl.entity.User;
 
+import java.util.List;
+
 /**
 * @author 10795
 * @description 针对表【t_user(用户表)】的数据库操作Mapper
@@ -16,6 +18,12 @@ public interface UserMapper {
      * @return
      */
     User selectByLoginAct(String username);
+
+    /**
+     * 分页查询 所有用户信息
+     * @return
+     */
+    List<User> selectUserByPage();
 }
 
 

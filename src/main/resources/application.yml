@@ -25,6 +25,11 @@ spring:
       # 一个连接的最大生命时间，超过该时间还没有使用就回收掉（单位毫秒），最好不要超过8小时
       max-lifetime: 18000000
 
+  # 设置jackson返回json数据时，时区和格式
+  jackson:
+    time-zone: GMT+8
+    date-format: yyyy-MM-dd HH:mm:ss
+
   # 配置redis的连接信息
   data:
     redis:

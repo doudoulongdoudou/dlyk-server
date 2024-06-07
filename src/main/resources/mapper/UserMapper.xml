@@ -37,4 +37,10 @@
         where login_act = #{username}
     </select>
 
+    <select id="selectUserByPage" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from t_user
+    </select>
+
 </mapper>
