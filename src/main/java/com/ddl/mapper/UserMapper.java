@@ -24,6 +24,20 @@ public interface UserMapper {
      * @return
      */
     List<User> selectUserByPage();
+
+    /**
+     * 根据用户id查询用户信息
+     * @param id
+     * @return
+     */
+    User selectDetailById(Integer id);
+
+    /**
+     * 新增用户
+     * @param user
+     * @return
+     */
+    int insert(User user);
 }
 
 

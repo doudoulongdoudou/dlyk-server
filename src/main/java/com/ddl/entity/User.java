@@ -54,6 +54,10 @@ public class User implements UserDetails, Serializable {
     //权限标识符List
     private List<String> permissionList;
 
+    //一对一关联
+    private User createByDO;
+    private User editByDO;
+
     private static final long serialVersionUID = 1L;
 
     //---------------实现 UserDetails 的方法---------------

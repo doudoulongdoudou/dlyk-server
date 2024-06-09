@@ -11,14 +11,19 @@ import jakarta.annotation.Resource;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.stereotype.Component;
 import java.io.IOException;
+import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
 @Component
 public class MyAuthenticationSuccessHandler implements AuthenticationSuccessHandler {
+
+    @Resource
+    private JdbcTemplate jdbcTemplate;
 
     @Resource
     private RedisService redisService;
@@ -27,6 +32,10 @@ public class MyAuthenticationSuccessHandler implements AuthenticationSuccessHand
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
 
         User user = (User) authentication.getPrincipal();
+
+        String loginAct = user.getLoginAct();
+        String sql = "UPDATE t_user SET last_login_time = ? WHERE login_act = ?";
+        jdbcTemplate.update(sql,new Date(), loginAct);
 
         //1.生成JWT
         String userJSON = JSONUtils.toJSON(user);

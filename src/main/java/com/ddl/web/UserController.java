@@ -1,15 +1,14 @@
 package com.ddl.web;
 
 import com.ddl.entity.User;
+import com.ddl.query.UserQuery;
 import com.ddl.result.R;
 import com.ddl.service.UserService;
 import com.github.pagehelper.PageInfo;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -65,6 +64,31 @@ public class UserController {
         }
         PageInfo<User> userPageInfo = userService.getUserByPage(current);
         return R.OK(userPageInfo);
+    }
+
+    /**
+     * 根据用户id查询用户信息
+     * @param id
+     * @return
+     */
+    @GetMapping("/api/user/{id}")
+    public R getUserDetail(@PathVariable("id") Integer id) {
+        User user = userService.getUserById(id);
+        return R.OK(user);
+    }
+
+    /**
+     * 新增用户
+     * @param userQuery
+     * @param token
+     * @return
+     */
+    @PostMapping("/api/user")
+    public R addUser(UserQuery userQuery, @RequestHeader("Authorization") String token){
+        userQuery.setToken(token);
+        //rows影响行数 >=1成功， 否则失败
+        int rows = userService.saveUser(userQuery);
+        return rows >= 1 ? R.OK() : R.FAIL();
     }
 
 }

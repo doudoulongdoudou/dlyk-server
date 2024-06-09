@@ -3,14 +3,19 @@ package com.ddl.service.impl;
 import com.ddl.config.constant.Constants;
 import com.ddl.entity.User;
 import com.ddl.mapper.UserMapper;
+import com.ddl.query.UserQuery;
 import com.ddl.service.UserService;
+import com.ddl.util.JWTUtils;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import jakarta.annotation.Resource;
+import org.springframework.beans.BeanUtils;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -28,6 +33,9 @@ public class UserServiceImpl implements UserService {
     @Resource
     private UserMapper userMapper;
 
+    @Resource
+    private PasswordEncoder passwordEncoder;
+
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         User user = userMapper.selectByLoginAct(username);
@@ -44,4 +52,32 @@ public class UserServiceImpl implements UserService {
         PageInfo<User> info = new PageInfo<>(list);
         return info;
     }
+
+    @Override
+    public User getUserById(Integer id) {
+        User user = userMapper.selectDetailById(id);
+        return user;
+    }
+
+    @Override
+    public int saveUser(UserQuery userQuery) {
+        User user = new User();
+        BeanUtils.copyProperties(userQuery,user);
+
+        //密码加密
+        String encodePwd = passwordEncoder.encode(user.getLoginPwd());
+        user.setLoginPwd(encodePwd);
+        //创建时间
+        user.setCreateTime(new Date());
+        user.setEditTime(new Date());
+
+        //获取token，从中取出登录用户的id
+        String token = userQuery.getToken();
+        Integer userId = JWTUtils.parseUserFromJWT(token).getId();
+        user.setCreateBy(userId);
+        user.setEditBy(userId);
+
+        return userMapper.insert(user);
+    }
+
 }

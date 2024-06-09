@@ -22,6 +22,34 @@
             <result property="lastLoginTime" column="last_login_time" jdbcType="TIMESTAMP"/>
     </resultMap>
 
+    <resultMap id="UserResultMap" type="com.ddl.entity.User">
+        <id property="id" column="id" jdbcType="INTEGER"/>
+        <result property="loginAct" column="login_act" jdbcType="VARCHAR"/>
+        <result property="loginPwd" column="login_pwd" jdbcType="VARCHAR"/>
+        <result property="name" column="name" jdbcType="VARCHAR"/>
+        <result property="phone" column="phone" jdbcType="VARCHAR"/>
+        <result property="email" column="email" jdbcType="VARCHAR"/>
+        <result property="accountNoExpired" column="account_no_expired" jdbcType="INTEGER"/>
+        <result property="credentialsNoExpired" column="credentials_no_expired" jdbcType="INTEGER"/>
+        <result property="accountNoLocked" column="account_no_locked" jdbcType="INTEGER"/>
+        <result property="accountEnabled" column="account_enabled" jdbcType="INTEGER"/>
+        <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
+        <result property="createBy" column="create_by" jdbcType="INTEGER"/>
+        <result property="editTime" column="edit_time" jdbcType="TIMESTAMP"/>
+        <result property="editBy" column="edit_by" jdbcType="INTEGER"/>
+        <result property="lastLoginTime" column="last_login_time" jdbcType="TIMESTAMP"/>
+        <!--一对一关联-->
+        <association property="createByDO" javaType="com.ddl.entity.User">
+            <id property="id" column="createById" jdbcType="INTEGER"/>
+            <result property="name" column="createByName" jdbcType="VARCHAR"/>
+        </association>
+        <association property="editByDO" javaType="com.ddl.entity.User">
+            <id property="id" column="editById" jdbcType="INTEGER"/>
+            <result property="name" column="editByName" jdbcType="VARCHAR"/>
+        </association>
+    </resultMap>
+
+
     <sql id="Base_Column_List">
         id,login_act,login_pwd,
         name,phone,email,
@@ -29,7 +57,7 @@
         account_enabled,create_time,create_by,
         edit_time,edit_by,last_login_time
     </sql>
-    
+
     <select id="selectByLoginAct" parameterType="java.lang.String" resultMap="BaseResultMap">
         select
         <include refid="Base_Column_List" />
@@ -42,5 +70,32 @@
         <include refid="Base_Column_List" />
         from t_user
     </select>
+
+    <select id="selectDetailById" parameterType="java.lang.Integer" resultMap="UserResultMap">
+        SELECT tu.*,
+               tu2.id   AS createById,
+               tu2.NAME AS createByName,
+               tu3.id   AS editById,
+               tu3.NAME AS editByName
+        FROM t_user AS tu
+                 JOIN t_user AS tu2 ON tu.create_by = tu2.id
+                 JOIN t_user AS tu3 ON tu.edit_by = tu3.id
+        WHERE tu.id = #{id}
+    </select>
+
+    <insert id="insert" keyProperty="id">
+        insert into t_user(login_act,login_pwd,
+                           name,phone,email,
+                           account_no_expired,credentials_no_expired,
+                           account_no_locked,account_enabled,
+                           create_time,create_by,
+                           edit_time,edit_by)
+        values (#{loginAct},#{loginPwd}
+                ,#{name},#{phone},#{email},
+                #{accountNoExpired},#{credentialsNoExpired},
+                #{accountNoLocked},#{accountEnabled},
+                #{createTime},#{createBy},
+                #{editTime},#{editBy})
+    </insert>
 
 </mapper>
