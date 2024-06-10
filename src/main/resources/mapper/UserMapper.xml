@@ -83,7 +83,7 @@
         WHERE tu.id = #{id}
     </select>
 
-    <insert id="insert" keyProperty="id">
+    <insert id="insert" parameterType="com.ddl.entity.User">
         insert into t_user(login_act,login_pwd,
                            name,phone,email,
                            account_no_expired,credentials_no_expired,
@@ -97,5 +97,58 @@
                 #{createTime},#{createBy},
                 #{editTime},#{editBy})
     </insert>
+
+    <update id="updateUserById" parameterType="com.ddl.entity.User">
+        update t_user
+        <set>
+            <if test="loginAct != null">
+                login_act = #{loginAct},
+            </if>
+            <if test="loginPwd != null and loginPwd != '' ">
+                login_pwd = #{loginPwd},
+            </if>
+            <if test="name != null">
+                name = #{name},
+            </if>
+            <if test="phone != null">
+                phone = #{phone},
+            </if>
+            <if test="email != null">
+                email = #{email},
+            </if>
+            <if test="accountNoExpired != null">
+                account_no_expired = #{accountNoExpired},
+            </if>
+            <if test="credentialsNoExpired != null">
+                credentials_no_expired = #{credentialsNoExpired},
+            </if>
+            <if test="accountNoLocked != null">
+                account_no_locked = #{accountNoLocked},
+            </if>
+            <if test="accountEnabled != null">
+                account_enabled = #{accountEnabled},
+            </if>
+            <if test="editTime != null">
+                edit_time = #{editTime},
+            </if>
+            <if test="editBy != null">
+                edit_by = #{editBy},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <delete id="delUserById" parameterType="java.lang.Integer">
+        delete from t_user
+        where id = #{id}
+    </delete>
+
+    <delete id="batchDelUserByIds" parameterType="java.util.List">
+        delete from t_user
+        where id in
+        <foreach collection="idList" item="id" open="(" close=")" separator=",">
+            #{id,jdbcType=INTEGER}
+        </foreach>
+    </delete>
 
 </mapper>

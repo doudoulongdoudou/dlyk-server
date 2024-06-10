@@ -38,6 +38,27 @@ public interface UserMapper {
      * @return
      */
     int insert(User user);
+
+    /**
+     * 编辑用户
+     * @param user
+     * @return
+     */
+    int updateUserById(User user);
+
+    /**
+     * 删除用户
+     * @param id
+     * @return
+     */
+    int delUserById(Integer id);
+
+    /**
+     * 批量删除
+     * @param idList
+     * @return
+     */
+    int batchDelUserByIds(List<String> idList);
 }
 
 

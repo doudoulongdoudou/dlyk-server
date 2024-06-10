@@ -39,4 +39,24 @@ public interface UserService extends UserDetailsService {
      */
     int saveUser(UserQuery userQuery);
 
+    /**
+     * 编辑用户
+     * @param userQuery
+     * @return
+     */
+    int updateUser(UserQuery userQuery);
+
+    /**
+     * 删除用户
+     * @param id
+     * @return
+     */
+    int delUserById(Integer id);
+
+    /**
+     * 批量删除
+     * @param idList
+     * @return
+     */
+    int batchDelUserByIds(List<String> idList);
 }

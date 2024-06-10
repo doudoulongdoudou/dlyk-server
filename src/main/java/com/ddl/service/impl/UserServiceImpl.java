@@ -14,6 +14,8 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
 
 import java.util.Date;
 import java.util.List;
@@ -59,6 +61,7 @@ public class UserServiceImpl implements UserService {
         return user;
     }
 
+    @Transactional
     @Override
     public int saveUser(UserQuery userQuery) {
         User user = new User();
@@ -78,6 +81,38 @@ public class UserServiceImpl implements UserService {
         user.setEditBy(userId);
 
         return userMapper.insert(user);
+    }
+
+    @Transactional
+    @Override
+    public int updateUser(UserQuery userQuery) {
+        User user = new User();
+        BeanUtils.copyProperties(userQuery,user);
+        if (StringUtils.hasText(userQuery.getLoginPwd())){
+            //密码加密
+            String encodePwd = passwordEncoder.encode(user.getLoginPwd());
+            user.setLoginPwd(encodePwd);
+        }
+        //修改时间
+        user.setEditTime(new Date());
+        //获取token，从中取出登录用户的id
+        String token = userQuery.getToken();
+        Integer userId = JWTUtils.parseUserFromJWT(token).getId();
+        user.setEditBy(userId);
+
+        return userMapper.updateUserById(user);
+    }
+
+    @Transactional
+    @Override
+    public int delUserById(Integer id) {
+        return userMapper.delUserById(id);
+    }
+
+    @Transactional
+    @Override
+    public int batchDelUserByIds(List<String> idList) {
+        return userMapper.batchDelUserByIds(idList);
     }
 
 }

@@ -18,6 +18,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class UserQuery extends BaseQuery {
 
+    private Integer id;
+
     private String loginAct;
 
     private String loginPwd;

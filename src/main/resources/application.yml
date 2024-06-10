@@ -42,3 +42,4 @@ spring:
 mybatis:
   type-aliases-package: com.ddl.entity
   mapper-locations: classpath:mapper/*.xml
+

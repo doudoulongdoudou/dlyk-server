@@ -30,7 +30,11 @@ public enum CodeEnum {
 
     TOKEN_IS_NONE_MATCH(904,"请求Token不匹配"),
 
-    USER_LOGOUT("登出成功");
+    USER_LOGOUT(200,"登出成功"),
+
+    DATA_ACCESS_EXCEPTION(500,"数据库操作失败"),
+
+    ACCESS_DENIED(500, "权限不足");
 
     //结果码
     private int code;

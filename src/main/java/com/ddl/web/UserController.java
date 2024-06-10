@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -74,6 +75,7 @@ public class UserController {
     @GetMapping("/api/user/{id}")
     public R getUserDetail(@PathVariable("id") Integer id) {
         User user = userService.getUserById(id);
+        user.setLoginPwd("");
         return R.OK(user);
     }
 
@@ -89,6 +91,43 @@ public class UserController {
         //rows影响行数 >=1成功， 否则失败
         int rows = userService.saveUser(userQuery);
         return rows >= 1 ? R.OK() : R.FAIL();
+    }
+
+    /**
+     * 编辑用户
+     * @param userQuery
+     * @param token
+     * @return
+     */
+    @PutMapping("/api/user")
+    public R editUser(UserQuery userQuery, @RequestHeader("Authorization") String token){
+        userQuery.setToken(token);
+        //rows影响行数 >=1成功， 否则失败
+        int rows = userService.updateUser(userQuery);
+        return rows >= 1 ? R.OK() : R.FAIL();
+    }
+
+    /**
+     * 删除用户
+     * @param id
+     * @return
+     */
+    @DeleteMapping("/api/user/{id}")
+    public R delUser(@PathVariable("id") Integer id){
+        int rows = userService.delUserById(id);
+        return rows >= 1 ? R.OK() : R.FAIL();
+    }
+
+    /**
+     * 批量删除
+     * @param ids
+     * @return
+     */
+    @DeleteMapping("/api/user")
+    public R batchDelUser(@RequestParam("ids") String ids){
+        List<String> idList = Arrays.asList(ids.split(","));
+        int rows = userService.batchDelUserByIds(idList);
+        return rows >= idList.size() ? R.OK() : R.FAIL();
     }
 
 }
