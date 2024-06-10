@@ -1,6 +1,7 @@
 package com.ddl.query;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -13,6 +14,7 @@ import lombok.NoArgsConstructor;
  * @Create 2024/6/9 15:02
  */
 
+@Builder
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -20,4 +22,8 @@ public class BaseQuery {
 
     //jwt
     private String token;
+
+    //数据权限的SQL过滤条件
+    private String filterSQL;
+
 }

@@ -13,4 +13,12 @@
     <sql id="Base_Column_List">
         id,role,role_name
     </sql>
+
+    <select id="selectUserRoleByUserId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        select role.*
+        from t_role role
+                 left join t_user_role tur on role.id = tur.role_id
+        where tur.user_id = #{userId}
+    </select>
+
 </mapper>

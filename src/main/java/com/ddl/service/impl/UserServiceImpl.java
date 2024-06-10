@@ -1,8 +1,11 @@
 package com.ddl.service.impl;
 
 import com.ddl.config.constant.Constants;
+import com.ddl.entity.Role;
 import com.ddl.entity.User;
+import com.ddl.mapper.RoleMapper;
 import com.ddl.mapper.UserMapper;
+import com.ddl.query.BaseQuery;
 import com.ddl.query.UserQuery;
 import com.ddl.service.UserService;
 import com.ddl.util.JWTUtils;
@@ -17,6 +20,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -36,6 +40,9 @@ public class UserServiceImpl implements UserService {
     private UserMapper userMapper;
 
     @Resource
+    private RoleMapper roleMapper;
+
+    @Resource
     private PasswordEncoder passwordEncoder;
 
     @Override
@@ -44,13 +51,22 @@ public class UserServiceImpl implements UserService {
         if (user == null) {
             throw new UsernameNotFoundException("登录账号不存在");
         }
+
+        //查询当前用户的角色
+        List<Role> roleList = roleMapper.selectUserRoleByUserId(user.getId());
+        //字符串的角色列表
+        List<String> stringRoleList = new ArrayList<>();
+        roleList.forEach(role -> {
+            stringRoleList.add(role.getRole());
+        });
+        user.setRoleList(stringRoleList);
         return user;
     }
 
     @Override
     public PageInfo<User> getUserByPage(Integer current) {
         PageHelper.startPage(current, Constants.PAGE_SIZE);
-        List<User> list = userMapper.selectUserByPage();
+        List<User> list = userMapper.selectUserByPage(BaseQuery.builder().build());
         PageInfo<User> info = new PageInfo<>(list);
         return info;
     }

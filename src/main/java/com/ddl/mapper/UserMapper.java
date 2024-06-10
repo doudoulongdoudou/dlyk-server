@@ -1,6 +1,8 @@
 package com.ddl.mapper;
 
+import com.ddl.commons.DataScope;
 import com.ddl.entity.User;
+import com.ddl.query.BaseQuery;
 
 import java.util.List;
 
@@ -23,7 +25,8 @@ public interface UserMapper {
      * 分页查询 所有用户信息
      * @return
      */
-    List<User> selectUserByPage();
+    @DataScope(tableAlias = "tu", tableField = "id")
+    List<User> selectUserByPage(BaseQuery baseQuery);
 
     /**
      * 根据用户id查询用户信息
