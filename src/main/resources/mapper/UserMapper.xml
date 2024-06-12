@@ -154,4 +154,9 @@
         </foreach>
     </delete>
 
+    <select id="selectByOwner" resultMap="BaseResultMap">
+        select id, name
+        from t_user
+    </select>
+
 </mapper>

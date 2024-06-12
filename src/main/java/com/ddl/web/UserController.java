@@ -130,4 +130,14 @@ public class UserController {
         return rows >= idList.size() ? R.OK() : R.FAIL();
     }
 
+    /**
+     * 获取活动负责人
+     * @return
+     */
+    @GetMapping("/api/owner")
+    public R getOwner(){
+        List<User> ownerList = userService.getOwner();
+        return R.OK(ownerList);
+    }
+
 }

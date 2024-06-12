@@ -59,4 +59,10 @@ public interface UserService extends UserDetailsService {
      * @return
      */
     int batchDelUserByIds(List<String> idList);
+
+    /**
+     * 获取活动负责人
+     * @return
+     */
+    List<User> getOwner();
 }

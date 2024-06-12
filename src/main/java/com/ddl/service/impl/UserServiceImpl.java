@@ -3,12 +3,15 @@ package com.ddl.service.impl;
 import com.ddl.config.constant.Constants;
 import com.ddl.entity.Role;
 import com.ddl.entity.User;
+import com.ddl.manager.RedisManager;
 import com.ddl.mapper.RoleMapper;
 import com.ddl.mapper.UserMapper;
 import com.ddl.query.BaseQuery;
 import com.ddl.query.UserQuery;
 import com.ddl.service.UserService;
+import com.ddl.util.CacheUtils;
 import com.ddl.util.JWTUtils;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import jakarta.annotation.Resource;
@@ -44,6 +47,9 @@ public class UserServiceImpl implements UserService {
 
     @Resource
     private PasswordEncoder passwordEncoder;
+
+    @Resource
+    private RedisManager redisManager;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
@@ -81,7 +87,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public int saveUser(UserQuery userQuery) {
         User user = new User();
-        BeanUtils.copyProperties(userQuery,user);
+        BeanUtils.copyProperties(userQuery, user);
 
         //密码加密
         String encodePwd = passwordEncoder.encode(user.getLoginPwd());
@@ -103,8 +109,8 @@ public class UserServiceImpl implements UserService {
     @Override
     public int updateUser(UserQuery userQuery) {
         User user = new User();
-        BeanUtils.copyProperties(userQuery,user);
-        if (StringUtils.hasText(userQuery.getLoginPwd())){
+        BeanUtils.copyProperties(userQuery, user);
+        if (StringUtils.hasText(userQuery.getLoginPwd())) {
             //密码加密
             String encodePwd = passwordEncoder.encode(user.getLoginPwd());
             user.setLoginPwd(encodePwd);
@@ -129,6 +135,26 @@ public class UserServiceImpl implements UserService {
     @Override
     public int batchDelUserByIds(List<String> idList) {
         return userMapper.batchDelUserByIds(idList);
+    }
+
+    @Override
+    public List<User> getOwner() {
+        //数据在redis做缓存，如果redis查不到就从数据库查，在把数据库查到的数据写进redis
+
+        return CacheUtils.getCacheData(
+                () -> {
+                    //生产，从reids查数据
+                    return (List<User>) redisManager.getValue(Constants.REDIS_OWNER_KEY);
+                },
+                () -> {
+                    //生产，从mysql查数据
+                    return (List<User>) userMapper.selectByOwner();
+                },
+                (t) -> {
+                    //消费，把数据写入redis
+                    redisManager.setValue(Constants.REDIS_OWNER_KEY, t);
+                }
+        );
     }
 
 }

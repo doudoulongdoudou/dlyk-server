@@ -62,6 +62,12 @@ public interface UserMapper {
      * @return
      */
     int batchDelUserByIds(List<String> idList);
+
+    /**
+     * 获取活动负责人
+     * @return
+     */
+    List<User> selectByOwner();
 }
 
 
